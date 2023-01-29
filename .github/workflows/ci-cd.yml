@@ -17,13 +17,9 @@ jobs:
     - name: Build the Docker image
       run: docker-compose up --build -d
 
-    - name: Config
-      run: |
-        docker-compose run app bash -c "pip install poetry"
-
     - name: poetry install
       run: |
-        docker-compose run app bash -c "poetry add `cat requirements.txt`; poetry install --no-interaction"
+        docker-compose run app bash -c "pip install poetry; poetry add `cat requirements.txt`; poetry install --no-interaction"
 
     - name: poetry lint
       run: |
