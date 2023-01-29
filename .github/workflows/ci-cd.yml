@@ -22,6 +22,11 @@ jobs:
       with:
         python-version: "3.9"
 
+    - name: Update toml
+      run: |
+        version=$(date +%Y%m%d%H%M%S)
+        sed -i "s/^version.*/version = \"$version\"/" pyproject.toml
+
     - name: poetry install
       run: |
         pip install -r requirements.txt
