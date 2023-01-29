@@ -19,7 +19,7 @@ jobs:
 
     - name: Config
       run: |
-        docker-compose run app bash; pip install poetry
+        docker-compose run app bash -c "pip install poetry"
 
     - name: poetry install
       run: |
