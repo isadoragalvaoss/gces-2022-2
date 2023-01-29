@@ -17,21 +17,28 @@ jobs:
     - name: Build the Docker image
       run: docker-compose up --build -d
 
+    - name: Config
+      run: |
+        pip install -r requirements.txt && pip install poetry
+
+    - name: Install Poetry Action
+      uses: snok/install-poetry@v1.3.3
+
     - name: poetry install
       run: |
-        pip install poetry && poetry install
+        poetry install --no-interaction
 
     - name: poetry lint
       run: |
-        pip install poetry && poetry run pylint ./src
+        poetry run pylint ./src
     
     - name: poetry tests
       run: |
-        pip install poetry && poetry run pytest ./tests
+        poetry run pytest ./tests
 
     - name: poetry publish
       env:
         POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
         POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
       run: |
-        pip install poetry && poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
+        poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
