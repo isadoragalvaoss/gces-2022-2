@@ -17,21 +17,21 @@ jobs:
     - name: Build the Docker image
       run: docker-compose up --build -d
 
-    - name: poetry install
-      run: |
-        poetry install
-
     - name: poetry lint
       run: |
-        poetry run pylint ./src
+        docker-compose run app bash; poetry run pylint ./src
     
     - name: poetry tests
       run: |
-        poetry run pytest ./tests
+        docker-compose run app bash; poetry run pytest ./tests
+
+    - name: poetry install
+      run: |
+        docker-compose run app bash; poetry install
 
     - name: poetry publish
       env:
         POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
         POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
       run: |
-        poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
+        docker-compose run app bash; poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
