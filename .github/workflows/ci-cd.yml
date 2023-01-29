@@ -1,0 +1,37 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker-compose up --build -d
+
+    - name: poetry install
+      run: |
+        poetry install
+
+    - name: poetry lint
+      run: |
+        poetry run pylint ./src
+    
+    - name: poetry tests
+      run: |
+        poetry run pytest ./tests
+
+    - name: poetry publish
+      env:
+        POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
+        POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
+      run: |
+        poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
