@@ -18,20 +18,25 @@ jobs:
       run: docker-compose up --build -d
 
     - name: poetry install
+    - uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
       run: |
-        docker-compose run app bash -c "pip install poetry; poetry add `cat requirements.txt`; poetry install --no-interaction"
+        pip install -r requirements.txt
+        pip install poetry 
+        poetry install
 
     - name: poetry lint
       run: |
-        docker-compose run app bash -c "poetry run pylint ./src"
+        poetry run pylint ./src
     
     - name: poetry tests
       run: |
-        docker-compose run app bash -c "poetry run pytest ./tests"
+        poetry run pytest ./tests
 
     - name: poetry publish
       env:
         POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
         POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
       run: |
-        docker-compose run app bash -c "poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD"
+        poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD
