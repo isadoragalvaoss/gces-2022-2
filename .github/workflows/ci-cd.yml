@@ -32,7 +32,8 @@ jobs:
 
     - name: poetry lint
       run: |
-        poetry run pylint ./src
+        pip install pylint
+        pylint ./src
     
     - name: poetry tests
       run: |
