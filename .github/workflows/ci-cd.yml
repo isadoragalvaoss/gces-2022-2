@@ -19,23 +19,23 @@ jobs:
 
     - name: Config
       run: |
-        pip3 install -r requirements.txt && pip3 install poetry
+        docker-compose run app bash; pip install poetry
 
     - name: poetry install
       run: |
-        poetry install --no-interaction
+        docker-compose run app bash; poetry install --no-interaction
 
     - name: poetry lint
       run: |
-        poetry run pylint ./src
+        docker-compose run app bash; poetry run pylint ./src
     
     - name: poetry tests
       run: |
-        poetry run pytest ./tests
+        docker-compose run app bash; poetry run pytest ./tests
 
     - name: poetry publish
       env:
         POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
         POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
       run: |
-        poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
+        docker-compose run app bash; poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
