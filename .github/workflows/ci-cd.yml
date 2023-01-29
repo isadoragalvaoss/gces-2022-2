@@ -13,19 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker-compose up --build -d
 
     - name: Set up python 3.9
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v2
       with:
         python-version: "3.9"
 
     - name: poetry install
       run: |
         pip install -r requirements.txt
-        pip install poetry 
+        python -m pip install poetry
 
     - name: Install Poetry
       uses: snok/install-poetry@v1
