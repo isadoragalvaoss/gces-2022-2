@@ -17,9 +17,8 @@ jobs:
     - name: Build the Docker image
       run: docker-compose up --build -d
 
-    steps:
     - name: Set up python 3.9
-    - uses: actions/setup-python@v3
+      uses: actions/setup-python@v3
       with:
         python-version: "3.9"
 
