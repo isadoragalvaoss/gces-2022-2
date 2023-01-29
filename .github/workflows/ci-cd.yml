@@ -19,7 +19,7 @@ jobs:
 
     - name: Config
       run: |
-        pip install --upgrade pip && pip install -r requirements.txt && pip install poetry
+        pip3 install -r requirements.txt && pip3 install poetry
 
     - name: poetry install
       run: |
