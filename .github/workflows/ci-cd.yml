@@ -19,19 +19,19 @@ jobs:
 
     - name: poetry lint
       run: |
-        docker-compose run app bash; poetry run pylint ./src
+        pip install poetry && poetry run pylint ./src
     
     - name: poetry tests
       run: |
-        docker-compose run app bash; poetry run pytest ./tests
+        pip install poetry && poetry run pytest ./tests
 
     - name: poetry install
       run: |
-        docker-compose run app bash; poetry install
+        pip install poetry && poetry install
 
     - name: poetry publish
       env:
         POETRY_USERNAME: ${{secrets.POETRY_USERNAME}}
         POETRY_PASSWORD: ${{secrets.POETRY_PASSWORD}}
       run: |
-        docker-compose run app bash; poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
+        pip install poetry && poetry publish --build -u $POETRY_USERNAME -p $POETRY_PASSWORD 
