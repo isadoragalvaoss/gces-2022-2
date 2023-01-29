@@ -23,7 +23,7 @@ jobs:
 
     - name: poetry install
       run: |
-        docker-compose run app bash; poetry install --no-interaction
+        docker-compose run app bash -c "poetry add `cat requirements.txt`; poetry install --no-interaction
 
     - name: poetry lint
       run: |
