@@ -17,6 +17,10 @@ jobs:
     - name: Build the Docker image
       run: docker-compose up --build -d
 
+    - name: poetry install
+      run: |
+        pip install poetry && poetry install
+
     - name: poetry lint
       run: |
         pip install poetry && poetry run pylint ./src
@@ -24,10 +28,6 @@ jobs:
     - name: poetry tests
       run: |
         pip install poetry && poetry run pytest ./tests
-
-    - name: poetry install
-      run: |
-        pip install poetry && poetry install
 
     - name: poetry publish
       env:
